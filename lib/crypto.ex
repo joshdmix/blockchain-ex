@@ -1,11 +1,20 @@
 defmodule Crypto do
   # Specify which fields to hash in a block
-  @hash_fields [:data, :timestamp, :prevhash]
+  @hash_fields [:nonce, :prev_hash, :timestamp, :transactions]
+  @transaction_hash_fields [:amount, :fromAddress, :toAddress, :timestamp]
 
   @doc "Calculate hash of block"
   def hash(%{} = block) do
     block
     |> Map.take(@hash_fields)
+    |> Poison.encode!()
+    |> sha256
+  end
+
+  @doc "Calculate hash of transaction"
+  def transaction_hash(%{} = transaction) do
+    transaction
+    |> Map.take(@transaction_hash_fields)
     |> Poison.encode!()
     |> sha256
   end

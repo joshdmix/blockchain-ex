@@ -4,8 +4,8 @@ defmodule Block do
   @doc "Build a new block for given data and previous hash"
   def new(data, prev_hash) do
     %Block{
-      nonce: nonce,
       prev_hash: prev_hash,
+      nonce: nonce,
       timestamp: NaiveDateTime.utc_now(),
       transactions: transactions
     }
