@@ -1,7 +1,7 @@
 defmodule Blockchain do
   @doc "Create a new blockchain with a genesis block"
   def new do
-    [Crypto.put_hash(Block.zero())]
+    [Crypto.put_hash(Block.genesis())]
   end
 
   @doc "Insert given data as a new block in the blockchain"
@@ -15,7 +15,7 @@ defmodule Blockchain do
 
   @doc "Validate the complete blockchain"
   def valid?(blockchain) when is_list(blockchain) do
-    zero =
+    genesis =
       Enum.reduce_while(blockchain, nil, fn prev, current ->
         cond do
           current == nil ->
@@ -29,6 +29,6 @@ defmodule Blockchain do
         end
       end)
 
-    if zero, do: Block.valid?(zero), else: false
+    if genesis, do: Block.valid?(genesis), else: false
   end
 end
